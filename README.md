@@ -1,12 +1,12 @@
-# Dynamic Income Statement – Power BI
+# Dynamic P&L Statement – Power BI
 
-Interactive **Income Statement** built in **Power BI** with dynamic financial logic, including **gross vs net analysis**, **ARS/USD currency switching**, **$ / % views**, and **total vs average periods**. Designed with reusable **DAX measures**, secure data handling, and a focus on accurate **financial analysis** and business decision-making.
+Interactive **P&L Statement** built in **Power BI** with dynamic financial logic, including **gross vs net analysis**, **ARS/USD currency switching**, **$ / % views**, and **total vs average periods**. Designed with reusable **DAX measures**, secure data handling, and a focus on accurate **financial analysis** and business decision-making.
 
 ## Context
-A construction company needed an interactive and reliable **Income Statement** to analyze performance across periods and currencies, while ensuring accuracy and preventing manual edits.
+A construction company required a flexible P&L dashboard to analyze financial performance across different periods, currencies, and aggregation levels. The solution needed to support management analysis while maintaining strong control over data accuracy and integrity.
 
 ## Objectives
-- Build a dynamic **Income Statement**
+- Build a dynamic **P&L Statement**
 - Enable **vertical** and **horizontal analysis**
 - Allow switching between **ARS / USD**
 - Allow switching between **$ / %**
@@ -26,9 +26,9 @@ A construction company needed an interactive and reliable **Income Statement** t
 - Fully interactive report controlled by **slicers**
 
 ## Notes on Data
-For confidentiality reasons, the **PBIX** and client data are not shared publicly. Screenshots and documentation are provided instead.
+For confidentiality reasons, the PBIX file and original client data are not shared publicly.
+All numeric values shown in the screenshots were modified and anonymized, and in some cases no longer reflect real business meaning, in order to fully protect sensitive financial information. The focus of this project is on modeling logic, interactivity, and analytical design, rather than on the specific figures.
 
-## Screenshots
 ## Screenshots
 
 ### P&L Overview
