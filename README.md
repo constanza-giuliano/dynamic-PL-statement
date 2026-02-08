@@ -29,4 +29,17 @@ A construction company needed an interactive and reliable **Income Statement** t
 For confidentiality reasons, the **PBIX** and client data are not shared publicly. Screenshots and documentation are provided instead.
 
 ## Screenshots
-(Coming soon)
+## Screenshots
+
+### P&L Overview
+![P&L Overview](overview.png)
+
+### Financial Analysis
+![P&L Analysis](global_view_statement.png)
+
+### Dynamic Logic (Currency, Units, Averages)
+![P&L Dynamic](arg_-_%_and_$.png)
+
+### Dynamic Logic (Currency, Units, Averages)
+![P&L Dynamic](usd_and_total_average.png)
+
