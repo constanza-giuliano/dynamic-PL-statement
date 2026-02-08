@@ -38,7 +38,7 @@ For confidentiality reasons, the **PBIX** and client data are not shared publicl
 ![P&L Analysis](globalview.png)
 
 ### Dynamic Logic (Currency, Units, Averages)
-![P&L Dynamic](arg%$.png)
+![P&L Dynamic](arg.png)
 
 ### Dynamic Logic (Currency, Units, Averages)
 ![P&L Dynamic](usdtotalaverage.png)
