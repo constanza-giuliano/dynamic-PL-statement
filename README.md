@@ -54,6 +54,11 @@ A construction company required a flexible P&L dashboard to analyze financial pe
 - Multi-currency financial reporting
 - Dynamic gross vs net revenue logic
 
+
+<a href="evidence/powerbi/">
+  <img src="https://img.shields.io/badge/View-Technical_Evidence-green?style=for-the-badge"/>
+</a>
+
 ## Notes on Data
 For confidentiality reasons, the PBIX file and original client data are not shared publicly.
 All numeric values shown in the screenshots were modified and anonymized, and in some cases no longer reflect real business meaning, in order to fully protect sensitive financial information. The focus of this project is on modeling logic, interactivity, and analytical design, rather than on the specific figures.
