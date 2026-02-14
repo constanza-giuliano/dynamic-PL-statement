@@ -1,0 +1,14 @@
+e.g 1
+Sales Adjustments =
+CALCULATE(
+    [Base_Gross_Dynamic],
+    'Fact_Expenses'[Account Group] IN { "Sales Adjustments" }
+)
+
+
+e.g 2
+Customer Freight =
+CALCULATE(
+    [Base_Gross_Dynamic],
+    'Fact_Expenses'[Account Group] IN { "Customer Freight" }
+)
