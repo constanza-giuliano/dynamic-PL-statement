@@ -16,7 +16,7 @@ A construction company required a flexible P&L dashboard to analyze financial pe
 ## Technical Stack
 
 **Power BI**
-- Advanced data modelling (star schema design)
+- Data modelling (star schema design)
 - Measure-driven reporting architecture
 - KPI card design and financial dashboards
 - Dynamic slicer-controlled reports
@@ -25,7 +25,6 @@ A construction company required a flexible P&L dashboard to analyze financial pe
 - Context manipulation using CALCULATE
 - Conditional logic with SWITCH(TRUE())
 - Dynamic selection using SELECTEDVALUE
-- Time-based calculations using DISTINCTCOUNT
 - Reusable financial measure structure
 
 **Power Query (M)**
@@ -50,7 +49,7 @@ A construction company required a flexible P&L dashboard to analyze financial pe
 
 
 <a href="evidence/">
-  <img src="https://img.shields.io/badge/View-Technical_Evidence-green?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/View-Technical_Evidence-red?style=for-the-badge"/>
 </a>
 
 ## Notes on Data
