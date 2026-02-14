@@ -1,0 +1,5 @@
+% Gross Average =
+CALCULATE(
+    ([Totalamount] / DISTINCTCOUNT(Dim_Date[Month])) /
+    (Fact_Expenses[Gross Sales Total] / DISTINCTCOUNT(Dim_Date[Month]))
+) * 100
