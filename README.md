@@ -23,6 +23,10 @@ A construction company required a flexible P&L dashboard to analyze financial pe
   
 [Power BI Evidence](evidence/powerbi/)
 
+<a href="evidence/powerbi/">
+  <img src="https://img.shields.io/badge/View-Technical_Evidence-blue?style=for-the-badge"/>
+</a>
+
 **DAX**
 - Context manipulation using CALCULATE
 - Conditional logic with SWITCH(TRUE())
