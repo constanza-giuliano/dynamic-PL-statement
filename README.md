@@ -13,17 +13,40 @@ A construction company required a flexible P&L dashboard to analyze financial pe
 - Allow **Total vs Average** of selected months
 - Ensure **data integrity** (no manual modification)
 
-## Tools
-- **Power BI**
-- **DAX**
-- **Power Query**
-- **SQL (Firebird via IBExpert)**
+## Technical Stack
 
-## Key Features
-- Reusable **DAX** logic using **CALCULATE**, **SWITCH(TRUE())**, and **SELECTEDVALUE**
-- Dynamic percentages based on **gross** or **net sales**
-- Correct average calculations using **DISTINCTCOUNT**
-- Fully interactive report controlled by **slicers**
+**Power BI**
+- Advanced data modelling (star schema design)
+- Measure-driven reporting architecture
+- KPI card design and financial dashboards
+- Dynamic slicer-controlled reports
+
+**DAX**
+- Context manipulation using CALCULATE
+- Conditional logic with SWITCH(TRUE())
+- Dynamic selection using SELECTEDVALUE
+- Time-based calculations using DISTINCTCOUNT
+- Reusable financial measure structure
+
+**Power Query (M)**
+- Data cleaning and normalization
+- Column transformations and data shaping
+- Merging and appending queries
+- Handling duplicate records
+- Preparing structured financial datasets
+
+**SQL (Firebird – IBExpert)**
+- Custom view creation
+- Aggregation and grouping logic
+- Join operations across financial tables
+- Preventing duplication in expense merging
+- Structured extraction for BI reporting
+
+**Financial Reporting Expertise**
+- Vertical and horizontal P&L analysis
+- Contribution margin structure
+- Multi-currency financial reporting
+- Dynamic gross vs net revenue logic
 
 ## Notes on Data
 For confidentiality reasons, the PBIX file and original client data are not shared publicly.
