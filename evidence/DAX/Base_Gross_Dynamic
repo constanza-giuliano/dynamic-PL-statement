@@ -1,0 +1,60 @@
+Base_Gross_Dynamic =
+1. ER GENERICO % / bruto = 
+
+SWITCH( 
+    TRUE(),  
+    SELECTEDVALUE(Dim_Value[currency])="$ ARG",
+    CALCULATE(
+
+SWITCH( 
+    TRUE(),  
+    SELECTEDVALUE(Dim_Unit[Unit)="$",
+    CALCULATE(
+
+SWITCH( 
+    TRUE(),  
+    SELECTEDVALUE(Dim_avg[avg])="YES",
+    CALCULATE(Fact_Expenses[Totalamount]/ DISTINCTCOUNT(Dim_Date[Month])),
+    SELECTEDVALUE(Dim_avg[avg])<>"YES",
+    CALCULATE( Fact_Expenses[Totalamount])
+    
+)),
+    SELECTEDVALUE(Dim_Unit[Unit])="%",
+   CALCULATE(
+       
+ SWITCH( 
+    TRUE(),  
+    SELECTEDVALUE(Dim_avg[avg])="YES",
+    CALCULATE(Fact_Expenses[% Gross Average]),
+    SELECTEDVALUE(Dim_avg[avg])<>"YES",
+    CALCULATE(Fact_Expenses[% Gross]))
+
+))),
+    SELECTEDVALUE(Dim_Value[currency])="USD",
+    CALCULATE(
+
+SWITCH( 
+    TRUE(),  
+    SELECTEDVALUE(Dim_Unit[Unit])="$",
+   CALCULATE(
+SWITCH( 
+    TRUE(),  
+    SELECTEDVALUE(Dim_avg[avg])="YES",
+    CALCULATE(Fact_Expenses[TotalamountUSD]/ DISTINCTCOUNT(Dim_Date[Month])),
+    SELECTEDVALUE(Dim_avg[avg])<>"YES",
+    CALCULATE( Fact_Expenses[TotalamountUSD])
+    
+)),
+    SELECTEDVALUE(Dim_Unit[Unit])="%",
+    CALCULATE(
+SWITCH( 
+    TRUE(),  
+    SELECTEDVALUE(Dim_avg[avg])="YES",
+    CALCULATE(Fact_Expenses[% Gross Average]),
+    SELECTEDVALUE(Dim_avg[avg])<>"YES",
+   CALCULATE(Fact_Expenses[% Gross]))     
+
+
+
+
+))))
