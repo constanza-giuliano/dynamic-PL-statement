@@ -1,1 +1,0 @@
-Calculate(([Resultado neto]/DISTINCTCOUNT(Dim_Date[Mes]))/ (Fact_Expenses[1. Suma Ventas brutas agrupadas] /(DISTINCTCOUNT(Dim_Date[Mes])))*100)
