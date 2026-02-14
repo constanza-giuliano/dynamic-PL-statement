@@ -20,12 +20,6 @@ A construction company required a flexible P&L dashboard to analyze financial pe
 - Measure-driven reporting architecture
 - KPI card design and financial dashboards
 - Dynamic slicer-controlled reports
-  
-[Power BI Evidence](evidence/powerbi/)
-
-<a href="evidence/powerbi/">
-  <img src="https://img.shields.io/badge/View-Technical_Evidence-blue?style=for-the-badge"/>
-</a>
 
 **DAX**
 - Context manipulation using CALCULATE
@@ -55,7 +49,7 @@ A construction company required a flexible P&L dashboard to analyze financial pe
 - Dynamic gross vs net revenue logic
 
 
-<a href="evidence/powerbi/">
+<a href="evidence/">
   <img src="https://img.shields.io/badge/View-Technical_Evidence-green?style=for-the-badge"/>
 </a>
 
