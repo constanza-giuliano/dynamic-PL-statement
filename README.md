@@ -21,7 +21,7 @@ A construction company required a flexible P&L dashboard to analyze financial pe
 - KPI card design and financial dashboards
 - Dynamic slicer-controlled reports
   
-![Details](evidence/powerbi)
+[Power BI Evidence](evidence/powerbi/)
 
 **DAX**
 - Context manipulation using CALCULATE
