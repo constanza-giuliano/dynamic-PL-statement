@@ -59,12 +59,26 @@ All numeric values shown in the screenshots were modified and anonymized, and in
 ## Screenshots
 
 ### Financial Analysis
+This page presents a high-level view of the company's financial performance, summarizing revenue, costs, and overall results for the selected period. It allows management to quickly monitor the general financial health of the business before drilling down into the detailed P&L structure.
 ![P&L Overview](images/overview.png)
 
 ### P&L
+This page displays the full Profit & Loss statement, structured to support both vertical analysis (each line as a percentage of revenue) and horizontal analysis (evolution across periods). It breaks down revenue, cost of goods sold, gross profit, operating expenses, and net result, giving management a detailed and traceable view of how profitability is built line by line.
 ![P&L Analysis](images/P&L-statement.png) 
 
 ### Dynamic Logic (Currency, Units, Averages)
+This page displays the full Profit & Loss statement, structured to support both vertical analysis (each line as a percentage of revenue) and horizontal analysis (evolution across periods). It breaks down revenue, cost of goods sold, gross profit, operating expenses, and net result, giving management a detailed and traceable view of how profitability is built line by line.
 ![P&L Dynamic](images/Currencyandperc.png)
 ![P&L Dynamic](images/usdavg.png)
 
+## Key Insights & Recommendations
+This analysis provides a clear and flexible view of the company's financial performance, supporting management decision-making across currencies, aggregation levels, and time periods.
+
+### Key Insights
+Gross and net profitability can vary significantly depending on the currency and aggregation level selected, highlighting the importance of a flexible reporting structure.
+Vertical analysis reveals which cost and expense lines have the greatest impact on the final result, exposing structural cost drivers.
+Horizontal analysis across periods helps identify trends and deviations in revenue and cost behavior over time.
+### Business Recommendations
+Use vertical analysis regularly to monitor the weight of key cost lines and detect early signs of margin erosion.
+Leverage the ARS/USD and $/% toggles to align financial reporting with both local management needs and currency exposure analysis.
+Extend the data model with budget or forecast data to enable variance analysis between actual and planned results.
