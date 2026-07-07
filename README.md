@@ -60,14 +60,17 @@ All numeric values shown in the screenshots were modified and anonymized, and in
 
 ### Financial Analysis
 This page presents a high-level view of the company's financial performance, summarizing revenue, costs, and overall results for the selected period. It allows management to quickly monitor the general financial health of the business before drilling down into the detailed P&L structure.
+
 ![P&L Overview](images/overview.png)
 
 ### P&L
 This page displays the full Profit & Loss statement, structured to support both vertical analysis (each line as a percentage of revenue) and horizontal analysis (evolution across periods). It breaks down revenue, cost of goods sold, gross profit, operating expenses, and net result, giving management a detailed and traceable view of how profitability is built line by line.
+
 ![P&L Analysis](images/P&L-statement.png) 
 
 ### Dynamic Logic (Currency, Units, Averages)
 This page displays the full Profit & Loss statement, structured to support both vertical analysis (each line as a percentage of revenue) and horizontal analysis (evolution across periods). It breaks down revenue, cost of goods sold, gross profit, operating expenses, and net result, giving management a detailed and traceable view of how profitability is built line by line.
+
 ![P&L Dynamic](images/Currencyandperc.png)
 ![P&L Dynamic](images/usdavg.png)
 
