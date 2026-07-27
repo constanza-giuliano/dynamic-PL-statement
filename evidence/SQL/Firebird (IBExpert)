@@ -1,0 +1,185 @@
+/* =========================================================================
+   Dynamic P&L Statement — SQL Evidence
+   Engine: Firebird (IBExpert)
+
+   NOTE: This script has been reconstructed from memory for portfolio
+   purposes. It is NOT the original client query (the live view could not
+   be recovered), but it reflects the same logic, structure, and technique
+   used in the real project: consolidating Income and Expense records from
+   two separate databases into a single unified dataset for Power BI.
+   Table names, field names, and business detail are simplified/generic.
+   ========================================================================= */
+
+
+/* -------------------------------------------------------------------------
+   1. VIEW: v_gastos_ingresos_consolidado
+   Purpose: Unify Gastos (Expenses) and Ingresos (Income) into a single
+   result set, tagging each record with a binary flag (0 = Expense,
+   1 = Income), correcting the sign of expense amounts, and enriching each row with Cost Center and
+   Branch (Sucursal) descriptions via joins.
+   ------------------------------------------------------------------------- */
+
+CREATE VIEW v_gastos_ingresos_consolidado AS
+
+  -- Expenses (DB 1)
+  SELECT
+      g.ID_MOVIMIENTO                     AS ID_MOVIMIENTO,
+      g.FECHA                             AS FECHA,
+      0                                   AS TIPO_MOVIMIENTO,        -- 0 = Expense
+      ABS(g.MONTO)                        AS MONTO,                  -- sign corrected
+      g.ID_CUENTA                         AS ID_CUENTA,
+      pc.DESCRIPCION_CUENTA               AS CUENTA,
+      cc.ID_CENTRO_COSTO                  AS ID_CENTRO_COSTO,
+      cc.DESCRIPCION_CC                   AS CENTRO_COSTO,
+      suc.ID_SUCURSAL                     AS ID_SUCURSAL,
+      suc.DESCRIPCION_SUCURSAL            AS SUCURSAL,
+      'DB1'                                AS ORIGEN_DB
+  FROM GASTOS g
+  INNER JOIN PLAN_DE_CUENTAS pc  ON pc.ID_CUENTA        = g.ID_CUENTA
+  INNER JOIN CENTROS_COSTO cc    ON cc.ID_CENTRO_COSTO  = g.ID_CENTRO_COSTO
+  INNER JOIN SUCURSALES suc      ON suc.ID_SUCURSAL     = g.ID_SUCURSAL
+
+  UNION ALL
+
+  -- Income (DB 1)
+  SELECT
+      i.ID_MOVIMIENTO,
+      i.FECHA,
+      1                                   AS TIPO_MOVIMIENTO,        -- 1 = Income
+      i.MONTO,
+      i.ID_CUENTA,
+      pc.DESCRIPCION_CUENTA,
+      cc.ID_CENTRO_COSTO,
+      cc.DESCRIPCION_CC,
+      suc.ID_SUCURSAL,
+      suc.DESCRIPCION_SUCURSAL,
+      'DB1'
+  FROM INGRESOS i
+  INNER JOIN PLAN_DE_CUENTAS pc  ON pc.ID_CUENTA        = i.ID_CUENTA
+  INNER JOIN CENTROS_COSTO cc    ON cc.ID_CENTRO_COSTO  = i.ID_CENTRO_COSTO
+  INNER JOIN SUCURSALES suc      ON suc.ID_SUCURSAL     = i.ID_SUCURSAL
+
+  UNION ALL
+
+  -- Expenses (DB 2 — second company database)
+  SELECT
+      g2.ID_MOVIMIENTO,
+      g2.FECHA,
+      0                                   AS TIPO_MOVIMIENTO,
+      ABS(g2.MONTO)                       AS MONTO,                  -- sign corrected
+      g2.ID_CUENTA,
+      pc2.DESCRIPCION_CUENTA,
+      cc2.ID_CENTRO_COSTO,
+      cc2.DESCRIPCION_CC,
+      suc2.ID_SUCURSAL,
+      suc2.DESCRIPCION_SUCURSAL,
+      'DB2'
+  FROM GASTOS_DB2 g2
+  INNER JOIN PLAN_DE_CUENTAS_DB2 pc2  ON pc2.ID_CUENTA        = g2.ID_CUENTA
+  INNER JOIN CENTROS_COSTO_DB2 cc2    ON cc2.ID_CENTRO_COSTO  = g2.ID_CENTRO_COSTO
+  INNER JOIN SUCURSALES_DB2 suc2      ON suc2.ID_SUCURSAL     = g2.ID_SUCURSAL
+
+  UNION ALL
+
+  -- Income (DB 2)
+  SELECT
+      i2.ID_MOVIMIENTO,
+      i2.FECHA,
+      1                                   AS TIPO_MOVIMIENTO,
+      i2.MONTO,
+      i2.ID_CUENTA,
+      pc2.DESCRIPCION_CUENTA,
+      cc2.ID_CENTRO_COSTO,
+      cc2.DESCRIPCION_CC,
+      suc2.ID_SUCURSAL,
+      suc2.DESCRIPCION_SUCURSAL,
+      'DB2'
+  FROM INGRESOS_DB2 i2
+  INNER JOIN PLAN_DE_CUENTAS_DB2 pc2  ON pc2.ID_CUENTA        = i2.ID_CUENTA
+  INNER JOIN CENTROS_COSTO_DB2 cc2    ON cc2.ID_CENTRO_COSTO  = i2.ID_CENTRO_COSTO
+  INNER JOIN SUCURSALES_DB2 suc2      ON suc2.ID_SUCURSAL     = i2.ID_SUCURSAL;
+
+
+/* -------------------------------------------------------------------------
+   2. VIEW: v_ventas_resumen
+   Purpose: Aggregate income records classified as "Sales" into a summary
+   view by account, cost center, and month — used as a source table for
+   the Power BI Sales / Revenue analysis.
+   ------------------------------------------------------------------------- */
+
+CREATE VIEW v_ventas_resumen AS
+SELECT
+    EXTRACT(YEAR  FROM v.FECHA)   AS ANIO,
+    EXTRACT(MONTH FROM v.FECHA)   AS MES,
+    v.ID_CUENTA,
+    v.CUENTA,
+    v.ID_CENTRO_COSTO,
+    v.CENTRO_COSTO,
+    v.ID_SUCURSAL,
+    v.SUCURSAL,
+    SUM(v.MONTO)                  AS MONTO_TOTAL
+FROM v_gastos_ingresos_consolidado v
+WHERE v.TIPO_MOVIMIENTO = 1                 -- Income only
+  AND v.CUENTA STARTING WITH 'VENTAS'       -- Sales-classified accounts
+GROUP BY
+    EXTRACT(YEAR  FROM v.FECHA),
+    EXTRACT(MONTH FROM v.FECHA),
+    v.ID_CUENTA, v.CUENTA,
+    v.ID_CENTRO_COSTO, v.CENTRO_COSTO,
+    v.ID_SUCURSAL, v.SUCURSAL;
+
+
+/* -------------------------------------------------------------------------
+   3. Window functions: % of expense over yearly account total
+   Purpose: For a specific set of expense accounts (defined by the business
+   as relevant to monitor), identify which individual entries
+   carried the largest share of that account's yearly total. This helped
+   flag unusually large single transactions that could distort the P&L,
+   rather than reviewing every account's full transaction history.
+
+   Note on the time boundary: without partitioning by year, the "total"
+   in the denominator would be a moving target — it grows every time a
+   new month of data is loaded, so the same March expense would show a
+   different percentage today than it would six months from now. Bounding
+   the window by fiscal year keeps the denominator fixed and the
+   percentages comparable across accounts and periods.
+   ------------------------------------------------------------------------- */
+
+SELECT
+    ID_CUENTA,
+    CUENTA,
+    FECHA,
+    MONTO,
+
+    -- Running accumulated total within the account/year, ordered by date
+    SUM(MONTO) OVER (
+        PARTITION BY ID_CUENTA, EXTRACT(YEAR FROM FECHA)
+        ORDER BY FECHA
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+    ) AS MONTO_ACUMULADO_ANIO,
+
+    -- % that this single movement represents of the account's full-year total
+    MONTO * 100.0 / SUM(MONTO) OVER (
+        PARTITION BY ID_CUENTA, EXTRACT(YEAR FROM FECHA)
+    ) AS PCT_SOBRE_TOTAL_ANIO_CUENTA
+
+FROM v_gastos_ingresos_consolidado
+WHERE TIPO_MOVIMIENTO = 0                          -- Expenses only
+  AND ID_CUENTA IN (1105, 1210, 1340, 1487)        -- accounts flagged for monitoring
+ORDER BY ID_CUENTA, PCT_SOBRE_TOTAL_ANIO_CUENTA DESC;
+
+
+/* -------------------------------------------------------------------------
+   4. Duplicate-prevention check
+   Purpose: Validate that no movement was pulled twice when merging DB1
+   and DB2 expense sources (a real issue encountered during development,
+   caused by overlapping ID ranges between the two databases).
+   ------------------------------------------------------------------------- */
+
+SELECT
+    ORIGEN_DB,
+    ID_MOVIMIENTO,
+    COUNT(*) AS OCURRENCIAS
+FROM v_gastos_ingresos_consolidado
+GROUP BY ORIGEN_DB, ID_MOVIMIENTO
+HAVING COUNT(*) > 1;
